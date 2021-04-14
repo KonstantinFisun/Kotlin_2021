@@ -31,7 +31,6 @@ tailrec fun maxElemDown(num:Int,max:Int):Int = if(num==0) max else
     else maxElemDown(num / 10, max)
 }
 
-
 //Максимальное цифра в числе рекурсия вверх
 
 fun max(a : Int, b : Int) = if (a > b) a else b
@@ -48,11 +47,43 @@ tailrec fun minElemDown(num:Int,min:Int):Int = if(num==0) min else
     else minElemDown(num / 10, min)
 }
 
-
 //Минимальная цифра в числе рекурсия вверх
 
 fun min(a : Int, b : Int) = if (a < b) a else b
 fun minElemUp(num : Int) : Int = if (num < 10) num else min(minElemUp(num / 10), num % 10)
+
+
+/*
+Задание 4. Написать функцию обход числа, которая выполняет операции
+на цифрами числа, принимает три аргумента, число, функция (например,
+сумма, произведение, минимум, максимум) и инициализирующее
+значение. Функция должна иметь два Int аргумента и возвращать Int.
+ */
+
+//Сумма и умножение
+tailrec fun digitsDown(num: Int, iter: Int, f : (Int , Int) -> Int):Int =
+     if(num==0) iter else
+     {
+         digitsDown(num/10,f(iter,num%10),f)
+     }
+
+fun sumDigits(num:Int): Int = digitsDown(num,0) { a, b -> (a + b) }
+fun mulDigits(num:Int): Int = digitsDown(num,1) { a, b -> (a * b) }
+
+
+//Максимальный и минимальный
+
+tailrec fun minmaxDigitsDown(num:Int,iter:Int,f : (Int,Int)->Boolean):Int =
+    if(num==0) iter else
+    {
+        if(f(iter,num%10))
+            minmaxDigitsDown(num/10,iter,f)
+        else
+            minmaxDigitsDown(num/10,num%10,f)
+    }
+
+fun maxDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a>b }
+fun minDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a<b }
 
 
 fun main() {
@@ -73,5 +104,9 @@ fun main() {
     println("Минимальный элемент рекурсия вверх ${minElemUp(s)}")
     println("Минимальный элемент рекурсия вниз ${minElemDown(s)}")
 
+    println("Сумма элементов ${sumDigits(s)}")
+    println("Произведение элементов ${mulDigits(s)}")
+    println("Максимальный элемент ${maxDigits(s)}")
+    println("Минимальный элемент ${minDigits(s)}")
 }
 
