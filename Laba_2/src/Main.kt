@@ -82,9 +82,38 @@ tailrec fun minmaxDigitsDown(num:Int,iter:Int,f : (Int,Int)->Boolean):Int =
             minmaxDigitsDown(num/10,num%10,f)
     }
 
-fun maxDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a>b }
-fun minDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a<b }
+fun maxDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a > b }
+fun minDigits(num:Int): Int = minmaxDigitsDown(num/10,num%10) { a, b -> a < b }
 
+
+/*Задание 5. Реализовать функцию обход числа с условием, которая
+выполняет операции над цифрами, если цифры удовлетворяют заданному
+условию.
+ */
+
+//Сумма и деление с условием pr
+tailrec fun digitsDown(num:Int,iter:Int,f:(Int,Int)->Int,pr:(Int)->Boolean):Int =
+    if(num==0) iter else
+    {
+        //val iter1 = if(pr(num%10)) f(iter,(num%10)) else iter
+        digitsDown(num/10,if(pr(num%10)) f(iter,(num%10)) else iter,f,pr)
+    }
+
+//Максимальный и минимальный с условием pr
+
+tailrec fun minmaxDigitsDown(num:Int,iter:Int,f : (Int,Int)->Boolean,pr:(Int)->Boolean):Int =
+    if(num==0) iter else
+    {
+        if(pr(num%10) && f(num%10,iter))
+            minmaxDigitsDown(num/10,num%10,f,pr)
+        else
+            minmaxDigitsDown(num/10,iter,f,pr)
+    }
+
+//Сумма цифр, которые делятся на 3
+fun prDigitsLess3(num:Int) = digitsDown(num,0,{ a, b -> (a + b)}, { a ->(a%3==0)})
+//максимальный среди четный
+fun prMaxMinDigitsLess2(num:Int) = minmaxDigitsDown(num,-1,{ a, b -> (a > b)}, { a ->(a%2==0)})
 
 fun main() {
 
@@ -108,5 +137,8 @@ fun main() {
     println("Произведение элементов ${mulDigits(s)}")
     println("Максимальный элемент ${maxDigits(s)}")
     println("Минимальный элемент ${minDigits(s)}")
+
+    println("Сумма элементов, которые делятся на 3 : ${prDigitsLess3(s)}")
+    println("Максимальный элемент, который делится на 2 : ${prMaxMinDigitsLess2(s)}")
 }
 
