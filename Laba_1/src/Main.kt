@@ -39,15 +39,46 @@ fun String.reverseCaseOfString(): String {
 fun sumDigits(num:Int):Int{
     var number = num
     var sum = 0
-    while(num!=0){
+    while(number!=0){
         sum+=num
         number/=10
     }
 
     return sum
 }
+//Произведение цифр в числе
+fun proDigits(num:Int):Int{
+    var number = num
+    var pro = 1
+    while(number!=0){
+        pro*=num
+        number/=10
+    }
 
-
+    return pro
+}
+//Минимальный элемент в числе
+fun minDigits(num:Int):Int{
+    var number = num/10
+    var min = num%10
+    while(number!=0){
+        if(number%10<min)
+            min=number%10
+        number/=10
+    }
+    return min
+}
+//Максимальный элемент в числе
+fun maxDigits(num:Int):Int{
+    var number = num/10
+    var max = num%10
+    while(number!=0){
+        if(number%10>max)
+            max=number%10
+        number/=10
+    }
+    return max
+}
 
 fun main() {
     val scanner = Scanner(System.`in`)
