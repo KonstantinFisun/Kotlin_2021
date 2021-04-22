@@ -40,7 +40,7 @@ fun sumDigits(num:Int):Int{
     var number = num
     var sum = 0
     while(number!=0){
-        sum+=num
+        sum+=number%10
         number/=10
     }
 
@@ -51,7 +51,7 @@ fun proDigits(num:Int):Int{
     var number = num
     var pro = 1
     while(number!=0){
-        pro*=num
+        pro*=number%10
         number/=10
     }
 
@@ -78,6 +78,19 @@ fun maxDigits(num:Int):Int{
         number/=10
     }
     return max
+}
+
+//Метод 2. Найти сумму цифр числа, делящихся на 3.
+fun sumDigitsShared3(num:Int):Int{
+    var number = num
+    var sum = 0
+    while(number!=0){
+        if(number%10%3==0)
+        sum+=number%10
+        number/=10
+    }
+
+    return sum
 }
 
 fun main() {
