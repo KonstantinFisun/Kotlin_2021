@@ -79,6 +79,16 @@ fun maxDigits(num:Int):Int{
     }
     return max
 }
+//Метод 1. Найти количество чисел, взаимно простых с заданным.
+tailrec fun nod(a: Int, b: Int): Int = if (b == 0) a else nod(b, a % b)  //НОД
+
+fun countMutuallySimple(num:Int): Int{
+    var kolvo=0
+    for(i in 1..num)
+        if(nod(num,i)==1) kolvo++
+    return kolvo
+}
+
 
 //Метод 2. Найти сумму цифр числа, делящихся на 3.
 fun sumDigitsShared3(num:Int):Int{
@@ -86,18 +96,21 @@ fun sumDigitsShared3(num:Int):Int{
     var sum = 0
     while(number!=0){
         if(number%10%3==0)
-        sum+=number%10
+            sum+=number%10
         number/=10
     }
 
     return sum
 }
 
+
 fun main() {
     val scanner = Scanner(System.`in`)
     val s:Int = scanner.nextInt()
 
     println("Сумма цифр числа : $s")
+    println("Сумма цифр числа : ${nod(4,6)}")
+    println("Количество чисел, взаимно простых с заданным : ${countMutuallySimple(s)}")
 }
 
 /*
