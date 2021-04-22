@@ -4,8 +4,17 @@ import java.util.*
 //Функции ответа на определенный язык
 fun programLanguage(language:String){
     when(language.reverseCaseOfString()){ //Сделали вид по умолчанию
-        "Kotlin","Prolog"->println("Ну ты и подлиза")
-
+        "Kotlin","Prolog" -> println("Ну ты и подлиза")
+        "C" -> println("Это винтовка Мосина, старое, но надежное.")
+        "C++" -> println("Это нунчаки,мощные и впечатляющие в действии, но требуют годы боли, чтобы овладеть ими мастерски.")
+        "Perl" -> println("Это коктейль Молотова, однажды он был полезен, но теперь мало кто им пользуется.")
+        "Java" -> println("Это пулемет 240G с ленточным заряжением.")
+        "Scala" -> println("Это просто вариант 240G Java, но с мануалом, написанном на непонятном диалекте")
+        "JavaScript" -> println("Это меч без рукоятки.")
+        "Go" -> println("Это пистолет, после каждого выстрела которого нужно проверить, а правда ли он выстрелил.")
+        "Rust" -> println("Это пистолет, напечатанный на 3D принтере. ")
+        "C#" -> println("Это мощная лазерная пушка, примотанная к спине осла")
+        "Lisp" -> println("Это заточка, которая может принимать разные формы.")
         else -> println("Ваще такого не знаю")
     }
 }
@@ -26,6 +35,28 @@ fun String.reverseCaseOfString(): String {
     return output.capitalize() //одновременно переводим в верхний регистр первый символ
 }
 
+//Сумма цифр в числе
+fun sumDigits(num:Int):Int{
+    var number = num
+    var sum = 0
+    while(num!=0){
+        sum+=num
+        number/=10
+    }
+
+    return sum
+}
+
+
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    val s:Int = scanner.nextInt()
+
+    println("Сумма цифр числа : $s")
+}
+
+/*
 fun main(args: Array<String>) {
     val name:String = args[0].reverseCaseOfString()
     println("Привет ${name}!\nКакой у тебя любимый язык программирования?")
@@ -33,3 +64,4 @@ fun main(args: Array<String>) {
     val s:String = scanner.next()
     programLanguage(s)
 }
+*/
