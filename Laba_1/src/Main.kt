@@ -2,7 +2,7 @@ import java.lang.System.`in`
 import java.util.*
 
 //Функции ответа на определенный язык
-fun programLanguage(language:String){
+fun programLanguage(language : String){
     when(language.reverseCaseOfString()){ //Сделали вид по умолчанию
         "Kotlin","Prolog" -> println("Ну ты и подлиза")
         "C" -> println("Это винтовка Мосина, старое, но надежное.")
@@ -20,7 +20,7 @@ fun programLanguage(language:String){
 }
 
 //Функция форматирования строки
-fun String.reverseCaseOfString(): String {
+fun String.reverseCaseOfString() : String {
 
     val inputCharArr = toCharArray() // Конвертируем поступающую строку в массив символов
     var output = ""
@@ -36,73 +36,100 @@ fun String.reverseCaseOfString(): String {
 }
 
 //Сумма цифр в числе
-fun sumDigits(num:Int):Int{
+fun sumDigits(num : Int) : Int{
     var number = num
     var sum = 0
-    while(number!=0){
-        sum+=number%10
-        number/=10
+    while(number != 0){
+        sum += number % 10
+        number /= 10
     }
 
     return sum
 }
 //Произведение цифр в числе
-fun proDigits(num:Int):Int{
+fun proDigits(num : Int) : Int{
     var number = num
     var pro = 1
-    while(number!=0){
-        pro*=number%10
-        number/=10
+    while(number != 0){
+        pro *= number % 10
+        number /= 10
     }
 
     return pro
 }
 //Минимальный элемент в числе
-fun minDigits(num:Int):Int{
-    var number = num/10
-    var min = num%10
-    while(number!=0){
-        if(number%10<min)
-            min=number%10
-        number/=10
+fun minDigits(num : Int) : Int{
+    var number = num / 10
+    var min = num % 10
+    while(number != 0){
+        if(number % 10 < min)
+            min = number % 10
+        number /= 10
     }
     return min
 }
 //Максимальный элемент в числе
-fun maxDigits(num:Int):Int{
-    var number = num/10
-    var max = num%10
-    while(number!=0){
-        if(number%10>max)
-            max=number%10
-        number/=10
+fun maxDigits(num : Int) : Int{
+    var number = num / 10
+    var max = num % 10
+    while(number != 0){
+        if(number % 10 > max)
+            max = number % 10
+        number /= 10
     }
     return max
 }
 //Метод 1. Найти количество чисел, взаимно простых с заданным.
-tailrec fun nod(a: Int, b: Int): Int = if (b == 0) a else nod(b, a % b)  //НОД
+tailrec fun nod(a: Int, b: Int) : Int = if (b == 0) a else nod(b, a % b)  //НОД
 
-fun countMutuallySimple(num:Int): Int{
+fun firstMetod(num : Int) : Int{
     var kolvo=0
     for(i in 1..num)
-        if(nod(num,i)==1) kolvo++
+        if(nod(num,i) == 1) kolvo++
     return kolvo
 }
 
 
 //Метод 2. Найти сумму цифр числа, делящихся на 3.
-fun sumDigitsShared3(num:Int):Int{
+fun secondMetod(num : Int) : Int{
     var number = num
     var sum = 0
-    while(number!=0){
-        if(number%10%3==0)
-            sum+=number%10
-        number/=10
+    while(number != 0){
+        if(number % 10 % 3 == 0)
+            sum += number % 10
+        number /= 10
     }
 
     return sum
 }
 
+//Метод 3. Найти делитель числа, являющийся взаимно простым с
+//наибольшим количеством цифр данного числа.
+
+//количество взаимно простых с данным числом
+fun countMutuallySimpleDigit(digit : Int, num : Int) : Int {
+    var number : Int = num
+    var kolvo : Int = 0
+    while(number != 0){
+        if(nod(number % 10, digit) == 1) kolvo++
+        number /= 10
+    }
+    return kolvo
+}
+
+fun threeMetod(num : Int) : Int {
+    var divisor = 0
+    var maxMutuallySimple = 0
+     for(i in 2 until num)
+         if(num % i == 0)
+             if(maxMutuallySimple<countMutuallySimpleDigit(i , num)){
+                 divisor = i
+                 maxMutuallySimple = countMutuallySimpleDigit(i , num)
+             }
+
+    return divisor
+
+}
 
 fun main() {
     val scanner = Scanner(System.`in`)
@@ -110,15 +137,15 @@ fun main() {
 
     println("Сумма цифр числа : $s")
     println("Сумма цифр числа : ${nod(4,6)}")
-    println("Количество чисел, взаимно простых с заданным : ${countMutuallySimple(s)}")
+    println("Делитель числа, являющийся взаимно простым с наибольшим количеством цифр данного числа : ${threeMetod(s)}")
 }
 
 /*
 fun main(args: Array<String>) {
-    val name:String = args[0].reverseCaseOfString()
+    val name : String = args[0].reverseCaseOfString()
     println("Привет ${name}!\nКакой у тебя любимый язык программирования?")
     val scanner = Scanner(`in`)
-    val s:String = scanner.next()
+    val s : String = scanner.next()
     programLanguage(s)
 }
 */
