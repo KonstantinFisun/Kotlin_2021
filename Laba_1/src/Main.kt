@@ -131,13 +131,59 @@ fun threeMetod(num : Int) : Int {
 
 }
 
-fun main() {
-    val scanner = Scanner(System.`in`)
-    val s:Int = scanner.nextInt()
+//Возможность выбора метода
+fun selectUser(){
+    println("Добрый день!")
 
-    println("Сумма цифр числа : $s")
-    println("Сумма цифр числа : ${nod(4,6)}")
-    println("Делитель числа, являющийся взаимно простым с наибольшим количеством цифр данного числа : ${threeMetod(s)}")
+    val scanner = Scanner(`in`)
+
+
+    do{
+        println("Выберите операцию : \n" +
+                "0. Выход.\n" +
+                "1. Сумма цифр в числе.\n" +
+                "2. Произведение цифр в числе.\n" +
+                "3. Максимальный элемент. \n" +
+                "4. Минимальный элемент. \n" +
+                "5. Первый метод. \n" +
+                "6. Второй метод. \n" +
+                "7. Третий метод. ")
+        val select : Int = scanner.nextInt()
+        if(select == 0) return
+        println("Введите число : ")
+        val digit : Int = scanner.nextInt()
+        when(select){
+            1 -> {
+                println(sumDigits(digit))
+            }
+            2 -> {
+                println(proDigits(digit))
+            }
+            3 -> {
+                println(maxDigits(digit))
+            }
+            4 -> {
+                println(minDigits(digit))
+            }
+            5 -> {
+                println(firstMetod(digit))
+            }
+            6 -> {
+                println(secondMetod(digit))
+            }
+            7 -> {
+                println(threeMetod(digit))
+            }
+
+        }
+        println("Введите любой символ для продолжения... : ")
+        val ok : String = scanner.next()
+
+    }while(select != 0)
+}
+
+fun main() {
+    selectUser()
 }
 
 /*
