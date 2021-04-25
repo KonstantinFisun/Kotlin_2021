@@ -1,6 +1,7 @@
 import java.lang.System.`in`
 import java.util.*
 
+
 //Функции ответа на определенный язык
 fun programLanguage(language : String){
     when(language.reverseCaseOfString()){ //Сделали вид по умолчанию
@@ -134,9 +135,7 @@ fun threeMetod(num : Int) : Int {
 //Возможность выбора метода
 fun selectUser(){
     println("Добрый день!")
-
     val scanner = Scanner(`in`)
-
 
     do{
         println("Выберите операцию : \n" +
@@ -148,7 +147,8 @@ fun selectUser(){
                 "5. Первый метод. \n" +
                 "6. Второй метод. \n" +
                 "7. Третий метод. \n" +
-                "8. 52 задача. ")
+                "8. 52 задача. \n" +
+                "9. 32 задача. \n")
         val select : Int = scanner.nextInt()
         if(select == 0) { return }
         var digit : Int = 0
@@ -181,12 +181,45 @@ fun selectUser(){
             8 -> {
                 println("52 задача : ${task52()}")
             }
+            9 -> {
+                println("32 задача :${runPandigital()}")
+            }
 
         }
         println("Введите любой символ для продолжения... : ")
         val ok : String = scanner.next()
 
     }while(select != 0)
+}
+
+//Задача 32
+fun runPandigital(): Int {
+    var sum = 0
+    for (i in 1..9999) {
+        if (pandigitalProduct_1_9(i)) sum += i
+    }
+    return sum
+}
+
+
+fun pandigitalProduct_1_9(n: Int): Boolean {
+    var i = 1
+    while (i * i <= n) {
+        if (n % i == 0 && isPandigital("" + n + i + n / i)) {
+            println("$i * ${n / i} = $n")
+            return true
+        }
+        i++
+    }
+    return false
+}
+
+//Проверка, что числа образуют "123456789"
+fun isPandigital(str: String): Boolean {
+    if (str.length != 9) return false
+    val ch = str.toCharArray()
+    Arrays.sort(ch)
+    return String(ch) == "123456789"
 }
 
 //Задача 52 с ресурса
@@ -232,7 +265,6 @@ fun task52(): Int{
 
 fun main() {
     selectUser()
-
 }
 
 /*
