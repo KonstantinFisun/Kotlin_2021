@@ -81,7 +81,7 @@ fun maxDigits(num : Int) : Int{
     return max
 }
 //Метод 1. Найти количество чисел, взаимно простых с заданным.
-tailrec fun nod(a: Int, b: Int) : Int = if (b == 0) a else nod(b, a % b)  //НОД
+tailrec fun nod(a : Int, b : Int) : Int = if (b == 0) a else nod(b, a % b)  //НОД
 
 fun firstMetod(num : Int) : Int{
     var kolvo=0
@@ -132,68 +132,44 @@ fun threeMetod(num : Int) : Int {
 
 }
 
-//Возможность выбора метода
-fun selectUser(){
-    println("Добрый день!")
-    val scanner = Scanner(`in`)
 
-    do{
-        println("Выберите операцию : \n" +
-                "0. Выход.\n" +
-                "1. Сумма цифр в числе.\n" +
-                "2. Произведение цифр в числе.\n" +
-                "3. Максимальный элемент. \n" +
-                "4. Минимальный элемент. \n" +
-                "5. Первый метод. \n" +
-                "6. Второй метод. \n" +
-                "7. Третий метод. \n" +
-                "8. 52 задача. \n" +
-                "9. 32 задача. \n")
-        val select : Int = scanner.nextInt()
-        if(select == 0) { return }
-        var digit : Int = 0
-        if(select in 1..7) {
-            println("Введите число : ")
-            digit = scanner.nextInt()
+//Задача 12. Последовательность треугольных чисел создается путем сложения натуральных чисел.
+// Таким образом, 7- й номер треугольника будет 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. Первые десять членов будут такими:
+//1, 3, 6, 10, 15, 21, 28, 36, 45, 55, ...
+//Перечислим множители первых семи чисел треугольника:
+// 1 : 1
+// 3 : 1,3
+// 6 : 1,2,3,6
+//10 : 1,2,5,10
+//15 : 1,3,5,15
+//21 : 1,3,7,21
+//28 : 1,2, 4,7,14,28
+//Какое значение имеет первое число треугольника, которое имеет более пятисот делителей?
+fun task12() : Int {
+    var a: Int = 1
+    var b: Int
+
+    var triangle: Int = 0
+
+    while (true) {
+        triangle += a
+        var count: Int = 0 //Количество делителей
+        for (b in 1..triangle)
+        {
+            if (triangle % b == 0) {
+                count += 1
+            }
         }
-        when(select){
-            1 -> {
-                println(sumDigits(digit))
-            }
-            2 -> {
-                println(proDigits(digit))
-            }
-            3 -> {
-                println(maxDigits(digit))
-            }
-            4 -> {
-                println(minDigits(digit))
-            }
-            5 -> {
-                println(firstMetod(digit))
-            }
-            6 -> {
-                println(secondMetod(digit))
-            }
-            7 -> {
-                println(threeMetod(digit))
-            }
-            8 -> {
-                println("52 задача : ${task52()}")
-            }
-            9 -> {
-                println("32 задача :${runPandigital()}")
-            }
-
+        if (count > 500) {
+            return triangle
         }
-        println("Введите любой символ для продолжения... : ")
-        val ok : String = scanner.next()
-
-    }while(select != 0)
+        a++
+    }
 }
 
-//Задача 32
-fun runPandigital(): Int {
+//Задача 32. Дано a*b=c. Найти сумму всех таких c, что в результате объединения символов abc
+// получим последовательность из 1..9 причем по одному разу
+fun task32(): Int {
     var sum = 0
     for (i in 1..9999) {
         if (pandigitalProduct_1_9(i)) sum += i
@@ -201,7 +177,7 @@ fun runPandigital(): Int {
     return sum
 }
 
-
+//Определяем, что из заданного числа можно получить пандигитал
 fun pandigitalProduct_1_9(n: Int): Boolean {
     var i = 1
     while (i * i <= n) {
@@ -263,11 +239,75 @@ fun task52(): Int{
     }
 }
 
+//Возможность выбора метода
+fun selectUser(){
+    println("Добрый день!")
+    val scanner = Scanner(`in`)
+
+    do{
+        println("Выберите операцию : \n" +
+                "0. Выход.\n" +
+                "1. Сумма цифр в числе.\n" +
+                "2. Произведение цифр в числе.\n" +
+                "3. Максимальный элемент. \n" +
+                "4. Минимальный элемент. \n" +
+                "5. Первый метод. \n" +
+                "6. Второй метод. \n" +
+                "7. Третий метод. \n" +
+                "8. 52 задача. \n" +
+                "9. 32 задача. \n")
+        val select : Int = scanner.nextInt()
+        if(select == 0) { return }
+        var digit : Int = 0
+        if(select in 1..7) {
+            println("Введите число : ")
+            digit = scanner.nextInt()
+        }
+        when(select){
+            1 -> {
+                println(sumDigits(digit))
+            }
+            2 -> {
+                println(proDigits(digit))
+            }
+            3 -> {
+                println(maxDigits(digit))
+            }
+            4 -> {
+                println(minDigits(digit))
+            }
+            5 -> {
+                println(firstMetod(digit))
+            }
+            6 -> {
+                println(secondMetod(digit))
+            }
+            7 -> {
+                println(threeMetod(digit))
+            }
+            8 -> {
+                println("52 задача : ${task52()}")
+            }
+            9 -> {
+                println("32 задача :${task32()}")
+            }
+            10 -> {
+                println("12 задача :${task12()}")
+            }
+
+        }
+        println("Введите любой символ для продолжения... : ")
+        val ok : String = scanner.next()
+
+    }while(select != 0)
+}
+
+//Главная функция
 fun main() {
     selectUser()
 }
 
-/*
+/* Для работы с командной строкой
 fun main(args: Array<String>) {
     val name : String = args[0].reverseCaseOfString()
     println("Привет ${name}!\nКакой у тебя любимый язык программирования?")
