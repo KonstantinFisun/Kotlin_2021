@@ -147,11 +147,15 @@ fun selectUser(){
                 "4. Минимальный элемент. \n" +
                 "5. Первый метод. \n" +
                 "6. Второй метод. \n" +
-                "7. Третий метод. ")
+                "7. Третий метод. \n" +
+                "8. 52 задача. ")
         val select : Int = scanner.nextInt()
-        if(select == 0) return
-        println("Введите число : ")
-        val digit : Int = scanner.nextInt()
+        if(select == 0) { return }
+        var digit : Int = 0
+        if(select in 1..7) {
+            println("Введите число : ")
+            digit = scanner.nextInt()
+        }
         when(select){
             1 -> {
                 println(sumDigits(digit))
@@ -174,6 +178,9 @@ fun selectUser(){
             7 -> {
                 println(threeMetod(digit))
             }
+            8 -> {
+                println("52 задача : ${task52()}")
+            }
 
         }
         println("Введите любой символ для продолжения... : ")
@@ -182,8 +189,50 @@ fun selectUser(){
     }while(select != 0)
 }
 
+//Задача 52 с ресурса
+//Условие: Найти наименьшее положительное число х,такое,что 2х,3х, 4х, 5х и 6х  содержат те же цифры.
+//проверка на то что цифра есть в числе
+fun equalsDigit(num : Int, digit : Int) : Boolean{
+    var number : Int = num
+    while(number != 0){
+        if(number % 10 == digit)
+        return true
+        number /= 10
+    }
+    return false
+}
+
+fun dop52(digit : Int, multiplier : Int) : Boolean{
+    var newDigit : Int = multiplier*digit //создали число 2х,3х, 4х, 5х и 6х
+
+    //Проверка что разряды совпадают
+    if(newDigit.toString().length==digit.toString().length) {
+        while(newDigit != 0){
+            if(!equalsDigit(digit,newDigit % 10)) return false
+            newDigit /= 10
+        }
+    }
+    else { return false }
+
+    return true
+}
+
+fun task52(): Int{
+    var iter : Int = 1
+    while(true){
+        if(dop52(iter, 2))
+            if(dop52(iter, 3))
+                if(dop52(iter, 4))
+                    if(dop52(iter, 5))
+                        if(dop52(iter, 6))
+                            return iter
+        iter++
+    }
+}
+
 fun main() {
     selectUser()
+
 }
 
 /*
