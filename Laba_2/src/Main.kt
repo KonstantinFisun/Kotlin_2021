@@ -111,16 +111,36 @@ tailrec fun minmaxDigitsDown(num:Int,iter:Int,f : (Int,Int)->Boolean,pr:(Int)->B
     }
 
 //Сумма цифр, которые делятся на 3
-fun prDigitsLess3(num:Int) = digitsDown(num,0,{ a, b -> (a + b)}, { a ->(a%3==0)})
+fun prDigitsShar3(num:Int) = digitsDown(num,0,{ a, b -> (a + b)}, { a ->(a%3==0)})
 //максимальный среди четный
-fun prMaxMinDigitsLess2(num:Int) = minmaxDigitsDown(num,-1,{ a, b -> (a > b)}, { a ->(a%2==0)})
+fun prMaxDigitsShar2(num:Int) = minmaxDigitsDown(num,-1,{ a, b -> (a > b)}, { a ->(a%2==0)})
+//Минимальный среди от 3 до 7
+fun prMinDigitsLess7to3(num:Int) = minmaxDigitsDown(num,8,{ a, b -> (a < b)}, { a ->(a in 3..7)})
+
+
+//Метод 1. Найти количество чисел, взаимно простых с заданным.
+tailrec fun nod(a : Int, b : Int) : Int = if (b == 0) a else nod(b, a % b)  //НОД
+
+fun firstMetod(num : Int) : Int = firstMetod(num,1,0)
+
+tailrec fun firstMetod(num : Int,index : Int,kolvo : Int) : Int =
+    if(index > num) kolvo
+    else {
+        if(nod(num , index) == 1) firstMetod(num,index+1,kolvo+1)
+        else {
+            firstMetod(num,index+1,kolvo)
+        }
+    }
+
+
 
 fun main() {
 
 
     val scanner = Scanner(`in`)
     val s:Int = scanner.nextInt()
-
+    println("Метод 1 : ${firstMetod(s)}")
+    /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
 
@@ -138,7 +158,11 @@ fun main() {
     println("Максимальный элемент ${maxDigits(s)}")
     println("Минимальный элемент ${minDigits(s)}")
 
-    println("Сумма элементов, которые делятся на 3 : ${prDigitsLess3(s)}")
-    println("Максимальный элемент, который делится на 2 : ${prMaxMinDigitsLess2(s)}")
+    println("Сумма элементов, которые делятся на 3 : ${prDigitsShar3(s)}")
+    println("Максимальный элемент, который делится на 2 : ${prMaxDigitsShar2(s)}")
+    println("Минимальный элемент, в диапазоне от 3 до 7 : ${prMinDigitsLess7to3(s)}")
+
+     */
+
 }
 
