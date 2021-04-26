@@ -135,12 +135,41 @@ tailrec fun firstMetod(num : Int,index : Int,kolvo : Int) : Int =
 //Метод 2. Найти сумму цифр числа, делящихся на 3.
 fun secondMetod(num:Int) = digitsDown(num,0,{ a, b -> (a + b)}, { a ->(a%3==0)})
 
+//Метод 3. Найти делитель числа, являющийся взаимно простым с
+//наибольшим количеством цифр данного числа.
+
+//количество взаимно простых с данным числом
+
+fun countMutuallySimpleDigit(digit : Int, num : Int) : Int = countMutuallySimpleDigit(digit , num , 0)
+
+tailrec fun countMutuallySimpleDigit(digit : Int, num : Int,kolvo : Int) : Int =
+    if(num == 0) kolvo
+    else {
+        if(nod(num % 10, digit) == 1) countMutuallySimpleDigit(digit , num / 10 , kolvo+1)
+        else {
+            countMutuallySimpleDigit(digit , num / 10, kolvo)
+        }
+    }
+
+fun threeMetod(num : Int) :Int = threeMetod(num , 2 , 0 , 0)
+
+tailrec fun threeMetod(num : Int , index : Int , maxMutuallySimple : Int , divisor : Int) : Int =
+    if(index >= num) divisor
+    else {
+        if(num % index == 0) {
+            if(maxMutuallySimple<countMutuallySimpleDigit(index , num)) threeMetod(num , index + 1 , countMutuallySimpleDigit(index , num) , index)
+            else {
+                threeMetod(num , index + 1, maxMutuallySimple , divisor)
+            }
+        } else {
+            threeMetod(num , index + 1, maxMutuallySimple , divisor)
+        }
+    }
+
 fun main() {
-
-
     val scanner = Scanner(`in`)
     val s:Int = scanner.nextInt()
-    println("Метод 1 : ${firstMetod(s)}")
+    println("Метод 3 : ${threeMetod(s)}")
     /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
@@ -164,6 +193,5 @@ fun main() {
     println("Минимальный элемент, в диапазоне от 3 до 7 : ${prMinDigitsLess7to3(s)}")
 
      */
-
 }
 
