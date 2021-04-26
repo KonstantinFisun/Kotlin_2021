@@ -132,7 +132,8 @@ tailrec fun firstMetod(num : Int,index : Int,kolvo : Int) : Int =
         }
     }
 
-
+//Метод 2. Найти сумму цифр числа, делящихся на 3.
+fun secondMetod(num:Int) = digitsDown(num,0,{ a, b -> (a + b)}, { a ->(a%3==0)})
 
 fun main() {
 
