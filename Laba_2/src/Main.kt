@@ -237,12 +237,55 @@ fun isPandigital(str: String): Boolean {
     return String(ch) == "123456789"
 }
 
+//-------------------------------------------------------
+
+
+/*Задача 52 с ресурса
+Условие: Найти наименьшее положительное число х,такое,что 2х,3х, 4х, 5х и 6х  содержат те же цифры.
+ */
+//Проверка на то что цифра есть в числе
+tailrec fun equalsDigit(num : Int, digit : Int) : Boolean =
+    if(num <= 0) false
+    else {
+        if(num % 10 == digit) true
+        else {
+            equalsDigit(num / 10, digit)
+        }
+    }
+
+fun dop52(digit : Int, multiplier : Int) : Boolean =
+    if((multiplier*digit).toString().length!=digit.toString().length)  false //Проверка что разряды совпадают
+    else {
+        dopEquals(digit, multiplier*digit)
+    }
+
+tailrec fun dopEquals(digit : Int, newDigit : Int) : Boolean =
+    if(newDigit <= 0) true
+    else{
+        if(!equalsDigit(digit,newDigit % 10)) false
+        else {
+            dopEquals(digit, newDigit / 10)
+        }
+    }
+
+
+
+fun task52() : Int = task52(1)
+
+tailrec fun task52(iter : Int): Int =
+    if(dop52(iter, 2) && dop52(iter, 3) && dop52(iter, 4) && dop52(iter, 5) && dop52(iter, 6)) iter
+    else {
+        task52(iter + 1)
+    }
+
+//-----------------------------------------------
+
 
 
 fun main() {
     //val scanner = Scanner(`in`)
     //val s:Int = scanner.nextInt()
-    println("Метод  : ${task32()}")
+    println("Метод  : ${task52()}")
     /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
