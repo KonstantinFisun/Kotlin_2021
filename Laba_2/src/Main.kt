@@ -166,10 +166,47 @@ tailrec fun threeMetod(num : Int , index : Int , maxMutuallySimple : Int , divis
         }
     }
 
+/*
+Задача 12. Последовательность треугольных чисел создается путем сложения натуральных чисел.
+Таким образом, 7- й номер треугольника будет 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. Первые десять членов будут такими:
+1, 3, 6, 10, 15, 21, 28, 36, 45, 55, ...
+Перечислим множители первых семи чисел треугольника:
+1 : 1
+ 3 : 1,3
+ 6 : 1,2,3,6
+10 : 1,2,5,10
+15 : 1,3,5,15
+21 : 1,3,7,21
+28 : 1,2, 4,7,14,28
+Какое значение имеет первое число треугольника, которое имеет более пятисот делителей?
+*/
+
+//Количество делителей числа
+fun countDivisors(digit : Int) = countDivisors(digit, 1, 0) //Вызов
+
+tailrec fun countDivisors(digit : Int, index : Int,count : Int) : Int =
+    if (index >= digit) count
+    else {
+        if (digit % index == 0) countDivisors(digit, index + 1, count + 1)
+        else countDivisors(digit, index + 1, count)
+    }
+
+fun task12() : Int = task12(0, 1) //Вызов
+
+tailrec fun task12(triangle : Int, index : Int) : Int =
+
+    if (countDivisors(triangle) > 500)  triangle
+    else{
+        task12(triangle + index, index + 1)
+    }
+//----------------------------------------------------------
+
+
+
 fun main() {
-    val scanner = Scanner(`in`)
-    val s:Int = scanner.nextInt()
-    println("Метод 3 : ${threeMetod(s)}")
+    //val scanner = Scanner(`in`)
+    //val s:Int = scanner.nextInt()
+    println("Метод  : ${task12()}")
     /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
