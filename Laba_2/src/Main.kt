@@ -201,12 +201,48 @@ tailrec fun task12(triangle : Int, index : Int) : Int =
     }
 //----------------------------------------------------------
 
+//Задача 32. Дано a*b=c. Найти сумму всех таких c, что в результате объединения символов abc
+// получим последовательность из 1..9 причем по одному разу
+
+fun task32(): Int = task32(0,1)
+
+fun task32(sum : Int,index : Int): Int =
+    if (index > 9999) sum
+    else {
+        if (pandigitalProduct_1_9(index)) task32(sum + index, index + 1)
+        else {
+            task32(sum, index + 1)
+        }
+    }
+
+
+//Определяем, что из заданного числа можно получить пандигитал
+fun pandigitalProduct_1_9(n: Int) : Boolean = pandigitalProduct_1_9(n, 1)
+
+tailrec fun pandigitalProduct_1_9(n: Int, index : Int): Boolean =
+    if(index * index > n) false
+    else {
+        if(n % index == 0 && isPandigital("" + n + index + n / index)) true
+        else {
+            pandigitalProduct_1_9(n, index + 1)
+        }
+    }
+
+
+//Проверка, что числа образуют "123456789"
+fun isPandigital(str: String): Boolean {
+    if (str.length != 9) return false
+    val ch = str.toCharArray()
+    Arrays.sort(ch)
+    return String(ch) == "123456789"
+}
+
 
 
 fun main() {
     //val scanner = Scanner(`in`)
     //val s:Int = scanner.nextInt()
-    println("Метод  : ${task12()}")
+    println("Метод  : ${task32()}")
     /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
