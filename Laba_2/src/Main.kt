@@ -1,5 +1,5 @@
-import java.lang.System.`in`
 import java.util.*
+import kotlin.math.pow
 
 //Суммы элементов рекурсия вверх
 fun sumElemUp(num:Int):Int = if(num==0) 0 else (num%10)+sumElemUp(num/10)
@@ -296,10 +296,61 @@ tailrec fun task72(iter : Int, count : Int) : Int =
         task72(iter + 1, count + firstMetod(iter))
     }
 
+//----------------------------------------------------------------------------------------
+
+/*
+Цепочка номеров создается путем непрерывного добавления квадрата цифр в число, чтобы сформировать новое число.
+Например,
+
+44 → 32 → 13 → 10 → 1 → 1
+85 → 89 → 145 → 42 → 20 → 4 → 16 → 37 → 58 → 89
+
+Следовательно, любая цепочка, которая достигает 1 или 89, застревает в бесконечной петле. Самое удивительное, что КАЖДЫЙ начальный номер в конечном итоге дойдет до 1 или 89.
+Сколько начальных чисел меньше десяти миллионов дойдут до 89?
+ */
+//Функция, строит новое число из квадрата цифр текущего
+
+fun squareDigit(num : Int) : Int = squareDigit(num, 0)
+
+tailrec fun squareDigit(num: Int, newDigit : Int) : Int =
+    if(num == 0) newDigit
+    else {
+        if(num % 10 == 0) squareDigit(num / 10, newDigit)
+        else{
+            squareDigit(num / 10,newDigit + ((num % 10) * (num % 10)))
+        }
+    }
+
+//Функция строит цепочки до 89, если встречает 1 то false
+tailrec fun squareDigitChains(num: Int) : Boolean =
+    if(num == 89) true
+    else {
+        if(num == 1) false
+        else {
+            squareDigitChains(squareDigit(num))
+        }
+    }
+
+fun task92() : Int = task92(1, 0)
+
+tailrec fun task92(iter : Int, count : Int) : Int =
+    if(iter > 10000000.0) count
+    else {
+        if(iter % 1000.0 == 0.0) println(iter)
+
+        if(squareDigitChains(iter)) {
+            println(count)
+            task92(iter + 1, count + 1)
+        }
+        else {
+            task92(iter + 1, count)
+        }
+    }
+
 fun main() {
     //val scanner = Scanner(`in`)
     //val s:Int = scanner.nextInt()
-    println("Метод  : ${task72()}")
+    println("Метод  : ${task92()}")
     /*
     println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
     println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
