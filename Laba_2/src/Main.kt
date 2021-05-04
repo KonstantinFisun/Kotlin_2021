@@ -1,3 +1,4 @@
+import java.lang.System.`in`
 import java.util.*
 import kotlin.math.pow
 
@@ -194,7 +195,6 @@ tailrec fun countDivisors(digit : Int, index : Int,count : Int) : Int =
 fun task12() : Int = task12(0, 1) //Вызов
 
 tailrec fun task12(triangle : Int, index : Int) : Int =
-
     if (countDivisors(triangle) > 500)  triangle
     else{
         task12(triangle + index, index + 1)
@@ -334,9 +334,8 @@ tailrec fun squareDigitChains(num: Int) : Boolean =
 fun task92() : Int = task92(1, 0)
 
 tailrec fun task92(iter : Int, count : Int) : Int =
-    if(iter > 10000000.0) count
+    if(iter > 10000000) count
     else {
-        if(iter % 1000.0 == 0.0) println(iter)
 
         if(squareDigitChains(iter)) {
             println(count)
@@ -347,32 +346,101 @@ tailrec fun task92(iter : Int, count : Int) : Int =
         }
     }
 
+//------------------------------------------------------
+
+//Запрос числа
+fun takeDigit() : Int {
+    println("Введите число : ")
+    val scanner = Scanner(`in`)
+    return scanner.nextInt()
+}
+
+//Возможность выбора метода
+fun selectUser(){
+    val scanner = Scanner(`in`)
+    println("Добрый день!")
+    do{
+        println("Введите операцию : \n" +
+                "Exit. Выход.\n" +
+                "Digit. Операции над цифрами числа. \n" +
+                "FM. Первый метод. \n" +
+                "SM. Второй метод. \n" +
+                "TM. Третий метод. \n" +
+                "Task52. 12 задача. \n" +
+                "Task32. 32 задача. \n" +
+                "Task12. 52 задача. \n" +
+                "Task32. 72 задача. \n" +
+                "Task12. 92 задача. \n")
+        val select = scanner.next()
+        if(select == "Exit") { return }
+        when(select){
+            "Digit" -> {
+                operation(takeDigit())
+            }
+            "FM" -> {
+                println(firstMetod(takeDigit()))
+            }
+            "SM" -> {
+                println(secondMetod(takeDigit()))
+            }
+            "TM" -> {
+                println(threeMetod(takeDigit()))
+            }
+            "Task12" -> {
+                println(task12())
+            }
+            "Task32" -> {
+                println(task32())
+            }
+            "Task52" -> {
+                println(task52())
+            }
+            "Task72" -> {
+                println(task72())
+            }
+            "Task92" -> {
+                println(task92())
+            }
+
+
+        }
+        println("Введите любой символ для продолжения... : ")
+        val ok : String = scanner.next()
+
+    }while(select != "Exit")
+}
+
+//Выбор операции
+fun operation(digit : Int){
+    val scanner = Scanner(`in`)
+    do{
+        println("Введите операцию : \n" +
+                "+. Сумма цифр числа.\n" +
+                "*. Произведение цифр числа. \n" +
+                "Min. Минимальная цифра числа. \n" +
+                "Max. Максимальная цифра числа. \n")
+        when(scanner.next()){
+            "+" -> {
+                println(sumDigits(digit))
+                return
+            }
+            "*" -> {
+                println(mulDigits(digit))
+                return
+            }
+            "Min" -> {
+                println(minDigits(digit))
+                return
+            }
+            "Max" -> {
+                println(maxDigits(digit))
+                return
+            }
+        }
+
+    }while(true)
+}
 fun main() {
-    //val scanner = Scanner(`in`)
-    //val s:Int = scanner.nextInt()
-    println("Метод  : ${task92()}")
-    /*
-    println("Сумма элементов рекурсия вверх ${sumElemUp(s)}")
-    println("Сумма элементов рекурсия вниз ${sumElemDown(s)}")
-
-    println("Произведение элементов рекурсия вверх ${mulElemUp(s)}")
-    println("Произведение элементов рекурсия вниз ${mulElemDown(s)}")
-
-    println("Максимальный элемент рекурсия вверх ${maxElemUp(s)}")
-    println("Максимальный элемент рекурсия вниз ${maxElemDown(s)}")
-
-    println("Минимальный элемент рекурсия вверх ${minElemUp(s)}")
-    println("Минимальный элемент рекурсия вниз ${minElemDown(s)}")
-
-    println("Сумма элементов ${sumDigits(s)}")
-    println("Произведение элементов ${mulDigits(s)}")
-    println("Максимальный элемент ${maxDigits(s)}")
-    println("Минимальный элемент ${minDigits(s)}")
-
-    println("Сумма элементов, которые делятся на 3 : ${prDigitsShar3(s)}")
-    println("Максимальный элемент, который делится на 2 : ${prMaxDigitsShar2(s)}")
-    println("Минимальный элемент, в диапазоне от 3 до 7 : ${prMinDigitsLess7to3(s)}")
-
-     */
+    selectUser()
 }
 
