@@ -301,6 +301,17 @@ tailrec fun listInput(list : MutableList<Int>, counter : Int, size : Int) : Muta
         listInput(list, counter + 1, size)
     }
 
+fun listInputFile(input : Map<Int, Int>) : MutableList<Int> {
+    var list: MutableList<Int> = mutableListOf<Int>()
+    list.remove(0)
+    return listInputFile(list, 0, input.size, input)
+}
+
+tailrec fun listInputFile(list : MutableList<Int>, counter : Int, size : Int, input : Map<Int, Int>) : MutableList<Int> =
+    if (counter == size) list else {
+        list.add(input[counter]!!)
+        listInputFile(list, counter + 1, size, input)
+    }
 
 
 fun main() {
