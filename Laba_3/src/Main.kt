@@ -313,6 +313,71 @@ tailrec fun listInputFile(list : MutableList<Int>, counter : Int, size : Int, in
         listInputFile(list, counter + 1, size, input)
     }
 
+//Задание 5. Реализовать задание 1 для коллекции — список
+tailrec fun digitsDown(numbers: MutableList<Int>,index:Int, iter: Int, f : (Int , Int) -> Int): Int =
+    if(index<=0) iter else
+    {
+        digitsDown(numbers,index-1,f(iter,numbers[index-1]),f)
+    }
+
+fun sumDigitsArray(numbers: MutableList<Int>,index:Int): Int = digitsDown(numbers,index,0) { a, b -> (a + b) }
+fun mulDigitsArray(numbers: MutableList<Int>,index:Int): Int = digitsDown(numbers,index,1) { a, b -> (a * b) }
+
+//Максимальный и минимальный
+tailrec fun minmaxDigitsDown(numbers: MutableList<Int>,index:Int,iter:Int,f : (Int,Int)->Boolean):Int = if(index<=0) iter else {
+    if(f(iter,numbers[index-1]))
+        minmaxDigitsDown(numbers,index-1,iter,f)
+    else
+        minmaxDigitsDown(numbers,index-1,numbers[index-1],f)
+}
+
+fun maxDigitsArray(numbers: MutableList<Int>,index:Int): Int = minmaxDigitsDown(numbers,index,numbers[index-1]) { a, b -> a > b }
+fun minDigitsArray(numbers: MutableList<Int>,index:Int): Int = minmaxDigitsDown(numbers,index,numbers[index-1]) { a, b -> a < b }
+
+//функция выбора
+fun arrayOp(numbers: MutableList<Int>){
+    val scanner = Scanner(`in`)
+    do{
+        println("Введите операцию : \n" +
+                "+. Сумма цифр массива.\n" +
+                "*. Произведение цифр массива. \n" +
+                "Min. Минимальная цифра массива. \n" +
+                "Max. Максимальная цифра массива. \n")
+        when(scanner.next()){
+            "+" -> {
+                println(sumDigitsArray(numbers,numbers.size))
+                return
+            }
+            "*" -> {
+                println(mulDigitsArray(numbers,numbers.size))
+                return
+            }
+            "Min" -> {
+                println(minDigitsArray(numbers,numbers.size))
+                return
+            }
+            "Max" -> {
+                println(maxDigitsArray(numbers,numbers.size))
+                return
+            }
+        }
+
+    }while(true)
+}
+
+//Задание 6. Переписать задание 5 с использование встроенных методов
+fun sumDigitsList(numbers: MutableList<Int>) : Int {
+    return numbers.sum()
+}
+
+fun maxDigitsList(numbers: MutableList<Int>) : Int? {
+    return numbers.max()
+}
+
+fun minDigitsList(numbers: MutableList<Int>) : Int? {
+    return numbers.min()
+}
+
 
 fun main() {
     val numbers : Array<Any> = arrayOf(4,2.3,1,5,7,9.2)
