@@ -280,16 +280,26 @@ tailrec fun task1_44(array : Array<Any>,index : Int) : Boolean {
     }
 }
 
+//Задание 5. Реализовать задание 1 для коллекции — список
 
-/*
-1.50. Для двух введенных списков L1 и L2 построить новый список, состоящий
-из элементов, встречающихся только в одном из этих списков и не
-повторяющихся в них
- */
-
-fun task1_44(array1 : Array<Int>,array2 : Array<Int>) : Array<Int> {
-
+//Ввод
+fun listInput(): List<Int> {
+    print("Bведите размер списка: ")
+    val size = readLine()!!.toInt()
+    return listInput( size)
 }
+
+fun listInput(size: Int) : MutableList<Int> { val list: MutableList<Int> = mutableListOf<Int>()   // ввод массива с клавиатуры
+    return listInput(list, 0, size)
+}
+
+tailrec fun listInput(list : MutableList<Int>, counter : Int, size : Int) : MutableList<Int> =
+
+    if (counter == size) list else {
+        val x = readLine()!!.toInt()
+        list.add(x)
+        listInput(list, counter + 1, size)
+    }
 
 
 
