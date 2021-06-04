@@ -1,9 +1,7 @@
-import java.io.BufferedReader
 import java.io.File
 import java.lang.System.`in`
-import java.nio.file.Files
 import java.util.*
-import java.nio.file.Paths
+
 
 //Ввод массива с клавиатуры с использованием цикла
 fun readArray(): Array<Int> {
@@ -267,6 +265,21 @@ tailrec fun task1_38(array : Array<Int>,index : Int, count : Int = 0, inter : Ar
 1.44 Дан массив чисел. Необходимо проверить, чередуются ли в нем
 целые и вещественные числа.
  */
+tailrec fun task1_44(array : Array<Any>,index : Int) : Boolean {
+    return if (index <= 0) true
+    else {
+        if (array[index-1] is Int && array[index] is Int) {
+            false
+        }
+        else {
+            if (array[index - 1] is Double && array[index] is Double) false
+            else {
+                task1_44(array, index - 1)
+            }
+        }
+    }
+}
+
 
 /*
 1.50. Для двух введенных списков L1 и L2 построить новый список, состоящий
@@ -274,8 +287,13 @@ tailrec fun task1_38(array : Array<Int>,index : Int, count : Int = 0, inter : Ar
 повторяющихся в них
  */
 
+fun task1_44(array1 : Array<Int>,array2 : Array<Int>) : Array<Int> {
+
+}
+
+
 
 fun main() {
-    val numbers = inputFile("Input")
-    println(task1_38(numbers,numbers.size-1,0,inter()))
+    val numbers : Array<Any> = arrayOf(4,2.3,1,5,7,9.2)
+    println(task1_44(numbers,numbers.size-1))
 }
