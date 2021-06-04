@@ -44,6 +44,22 @@ tailrec fun orderedCharacters(str : String, pred_sim : Char, index : Int) : Bool
 
 //----------------------------------------------------------------------------------------------------------
 
+//10. Дана строка. Необходимо подсчитать количество букв "А" в этой
+//строке.
+
+tailrec fun countA(str : String, iter : Int, index : Int) : Int {
+    return if(index <= 0) iter
+    else{
+        if(str[index] == 'A') countA(str, iter + 1, index - 1)
+        else{
+            countA(str, iter, index - 1)
+        }
+    }
+}
+
+//---------------------------------------------------------------------------------------------------------
+
+
 
 fun selectUser(){
     val scanner = Scanner(System.`in`)
@@ -51,13 +67,15 @@ fun selectUser(){
     do{
         println("Введите операцию : \n" +
                 "1. Максимальное число в строке.\n" +
-                "2. Упорядочены ли латинские символы")
+                "2. Упорядочены ли латинские символы.\n" +
+                "3. Количество букв А")
 
         val select = scanner.next()
         if(select == "Exit") { return }
         when(select){
             "1" -> maxDigitInString("521 63 4 2 99")
-            "2" -> println(orderedCharacters("amvs sv s vs fg",'a',13))
+            "2" -> println(orderedCharacters("zvvs sv s vs fg",'z',13))
+            "3" -> println(countA("zvAs sv s As fg",0,13))
 
         }
         println("Введите любой символ для продолжения... : ")
