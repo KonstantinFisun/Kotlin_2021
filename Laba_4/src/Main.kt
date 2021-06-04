@@ -60,6 +60,17 @@ tailrec fun countA(str : String, iter : Int, index : Int) : Int {
 //---------------------------------------------------------------------------------------------------------
 
 
+//17. Дана строка в которой записан путь к файлу. Необходимо найти имя
+//файла без расширения.
+
+
+fun pathFile(str : String) : String {
+    return str
+        .drop(str.length-str.reversed().indexOf('/'))
+        .dropLast(str.drop(str.length-str.reversed().indexOf('/')).indexOf(".")+1)
+}
+
+
 
 fun selectUser(){
     val scanner = Scanner(System.`in`)
@@ -68,7 +79,8 @@ fun selectUser(){
         println("Введите операцию : \n" +
                 "1. Максимальное число в строке.\n" +
                 "2. Упорядочены ли латинские символы.\n" +
-                "3. Количество букв А")
+                "3. Количество букв А.\n" +
+                "4. Имя файла")
 
         val select = scanner.next()
         if(select == "Exit") { return }
@@ -76,6 +88,7 @@ fun selectUser(){
             "1" -> maxDigitInString("521 63 4 2 99")
             "2" -> println(orderedCharacters("zvvs sv s vs fg",'z',13))
             "3" -> println(countA("zvAs sv s As fg",0,13))
+            "4" -> println(pathFile("c:/sf/cs/vot.txt"))
 
         }
         println("Введите любой символ для продолжения... : ")
