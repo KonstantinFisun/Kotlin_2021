@@ -111,6 +111,30 @@ tailrec fun allLowerSimbolLatin(str : String, index : Int, useSimbol : MutableLi
         }
     }
 }
+//------------------------------------------------------------------------------------------------------------------------------------
+
+//1.10 Дана строка. Необходимо найти количество задействованных
+//символов латиницы в этой строке (без дубликатов).
+fun countAllLowerSimbolLatin(str : String) : Int = countAllLowerSimbolLatin(str, str.length-1, mutableListOf<Char>()).size
+
+tailrec fun countAllLowerSimbolLatin(str : String, index : Int, useSimbol : MutableList<Char>) : MutableList<Char> {
+    return if(index <= 0) useSimbol
+    else if(str[index] in 'A'..'z' && useSimbol.any{it == str[index]}) countAllLowerSimbolLatin(str, index - 1, useSimbol)
+    else{
+        if(str[index] in 'A'..'z'){
+            useSimbol.add(str[index])
+            countAllLowerSimbolLatin(str, index - 1, useSimbol)
+        } else{
+            countAllLowerSimbolLatin(str, index - 1, useSimbol)
+        }
+    }
+}
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+//1.17 Дана строка в которой записан путь к файлу. Необходимо найти имя
+//файла без расширения.
+//Смотреть выше
+
 
 fun selectUser(){
     val scanner = Scanner(System.`in`)
@@ -123,7 +147,8 @@ fun selectUser(){
                 "4. Имя файла.\n" +
                 "5. Найти дату в строке.\n" +
                 "6. Все строчные символы латиницы.\n" +
-                "")
+                "7. Найти количество задействованных символов латиницы.\n"
+                )
 
         val select = scanner.next()
         if(select == "Exit") { return }
@@ -134,6 +159,7 @@ fun selectUser(){
             "4" -> println(pathFile("c:/sf/cs/vot.txt"))
             //"5" -> validDate("fs v 31/02/2007 fs vl 32/02/2003")
             "6" -> println(allLowerSimbolLatin("fs A 31F2g/2007 fh vl 32/02/2003"))
+            "7" -> println(countAllLowerSimbolLatin("fs A 31F2g/2007 fh vl 32/02/2003"))
 
         }
         println("Введите любой символ для продолжения... : ")
