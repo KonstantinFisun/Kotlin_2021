@@ -8,18 +8,6 @@ import java.util.ArrayList
 import java.util.Arrays
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //Ввод массива с клавиатуры с использованием цикла
 fun readArray(): Array<Int> {
     val scanner = Scanner(`in`)
@@ -134,7 +122,7 @@ fun arrayInputFile(array : Array<Int>, counter : Int, size : Int, input : Map<In
 //Организация чтения из файла
 fun inputFile(fileName:String) : Array<Int> {
     val input = File(fileName).readLines()
-        .withIndex()
+        .withIndex() // ленивая итерацию,каждому элементу присваивает индекс этого элемента и сам элемент.
         .map{ indexedValue -> indexedValue.index to indexedValue.value.toInt() }
         .toMap()
 
@@ -548,10 +536,35 @@ fun task1_50List(list1 : MutableList<Int>,list2 : MutableList<Int>) : MutableLis
 
 
 
+//10
+fun makeList(): List<Double> {
+    val l: MutableList<Double> = mutableListOf()
+    return makeList(0.1,l,0).toList()
+}
+
+tailrec fun makeList(elem: Double, list: MutableList<Double>, counter: Int): List<Double> = if (counter == 10000) list else
+    makeList(elem + 1, list.plus(elem + 1).toMutableList(), counter + 1)
+
+fun makeSet(): Set<Double> {
+    val set: MutableSet<Double> = mutableSetOf<Double>()
+    return makeSet(0.1, set, 0).toSet()
+}
+
+tailrec fun makeSet(elem: Double, set: MutableSet<Double>, counter: Int): Set<Double> = if (counter == 10000) set else {
+    set.add(elem + 1)
+    makeSet(elem + 1, set, counter + 1)
+}
 
 
 fun main() {
-    val list1 : MutableList<Int> = mutableListOf(1,2,3,4,5,6,7,2,3,5)
-    val list2 : MutableList<Int> = mutableListOf(3,3,3,4,8,6,9,2,3,5)
-    println(task1_50List(list1,list2))
+
+    val al = makeList()
+    val startTimeal = System.currentTimeMillis()
+    al.binarySearch { 2222 }
+    println("Поиск элемента в списке: ${(System.currentTimeMillis() - startTimeal)}")
+    val bl = Array(10000) { i -> i + 1 }
+    val startTimebl = System.currentTimeMillis()
+    bl.binarySearch(2222)
+    println("Поиск элемента в массиве: ${(System.currentTimeMillis() - startTimebl)}")
+
 }
