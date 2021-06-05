@@ -1,6 +1,23 @@
 import java.io.File
 import java.lang.System.`in`
 import java.util.*
+import java.util.function.BinaryOperator.minBy
+import java.util.HashSet
+import java.util.stream.Collectors
+import java.util.ArrayList
+import java.util.Arrays
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Ввод массива с клавиатуры с использованием цикла
@@ -378,8 +395,163 @@ fun minDigitsList(numbers: MutableList<Int>) : Int? {
     return numbers.min()
 }
 
+//-----------------------------------------------------------
+
+//Задание 8. Выполнить задание 4 с использованием структуры — список
+
+/*
+1.1 Дан целочисленный массив. Необходимо найти количество
+элементов, расположенных после последнего максимального.
+*/
+//Функция получения индекса максимального или минимального
+tailrec fun minmaxDigitsDownIndex(numbers: MutableList<Int>,index:Int,index_of_iter : Int, iter:Int,f : (Int,Int)->Boolean) : Int = if(index<=0) index_of_iter else {
+    if(f(iter,numbers[index-1]))
+        minmaxDigitsDownIndex(numbers,index-1,index_of_iter, iter,f)
+    else
+        minmaxDigitsDownIndex(numbers,index-1,index-1,numbers[index-1],f)
+}
+
+fun task1_1(list : MutableList<Int>) : Int {
+    return (-1 + list.size - minmaxDigitsDownIndex(list,list.size,list.size-1,list[list.size-1]) { a, b -> a >= b }) //размер массива - индекс последнего максимального
+}
+
+/*
+1.2 Дан целочисленный массив. Необходимо найти индекс минимального элемента.
+ */
+fun task1_2List(list : MutableList<Int>) : Int {
+    return list.indices.maxBy { list[it] } ?: -1
+}
+
+/*
+1.14 Дан целочисленный массив и интервал a..b. Необходимо найти
+количество элементов в этом интервале.
+ */
+//Функция возврата интервала
+fun interList() : MutableList<Int> {
+    println("Введите первый элемент интервала")
+    val number1 = readLine()!!.toInt()
+    println("Введите второй элемент интервала")
+    val number2 = readLine()!!.toInt()
+    return mutableListOf(number1, number2)
+}
+
+fun task1_14List() : Int {
+    val inter = interList()
+    return inter[1]-inter[0]-1
+}
+
+/*
+1.16 Дан целочисленный массив. Необходимо найти элементы,
+расположенные между первым и вторым максимальным.
+ */
+//Нахождение индексов второго и первого максимального
+tailrec fun minmaxDigitsDown2(numbers: MutableList<Int>, index : Int, maxFirst : Int, indexMaxFirst : Int, maxSecond : Int, indexMaxSecond : Int, f : (Int,Int)->Boolean) : IndexOfMax =
+    if(index<=0) IndexOfMax(indexMaxFirst-1, indexMaxSecond-1) else {
+        if(f(maxFirst,numbers[index-1]))
+
+            if(f(maxSecond,numbers[index-1]))
+                minmaxDigitsDown2(numbers,index-1, maxFirst, indexMaxFirst, maxSecond, indexMaxSecond,f)
+            else {
+                minmaxDigitsDown2(numbers,index-1, maxFirst, indexMaxFirst, numbers[index-1],index,f)
+            }
+        else {
+            minmaxDigitsDown2(numbers,index-1,  numbers[index-1], index,maxFirst, indexMaxFirst, f)
+        }
+
+    }
+
+//Определяем первый и второй макс
+fun plTask1_16List(list : MutableList<Int>,f : (Int,Int)->Boolean) : IndexOfMax =
+    if(f(list[list.size-1],list[list.size-2])){
+        minmaxDigitsDown2(list, list.size, list[list.size-1],list.size-1, list[list.size-2], list.size-2, f)
+    }
+    else {
+        minmaxDigitsDown2(list, list.size, list[list.size-2], list.size-2, list[list.size-1],list.size-1, f)
+    }
+
+
+fun task1_16List(list : MutableList<Int>) : List<Int> {
+    val (indexMaxFirst, indexMaxSecond) = plTask1_16List(list) { a, b -> a >= b }
+    println("$indexMaxFirst $indexMaxSecond")
+    return if(indexMaxFirst>indexMaxSecond) {
+        list.filterIndexed { index, _ ->(index < indexMaxFirst) && (index > indexMaxSecond) }
+    }
+    else {
+        list.filterIndexed { index, _ ->(index > indexMaxSecond) && (index < indexMaxFirst) }
+    }
+}
+
+/*
+1.26 Дан целочисленный массив. Необходимо найти количество
+элементов между первым и последним минимальным.
+ */
+fun task1_26List(list : MutableList<Int>) : List<Int> {
+    val indexMinLast = minmaxDigitsDownIndex(list,list.size,list.size-1,list[list.size-1]) { a, b -> a <= b }
+    return  list.filterIndexed { index, _ ->(index < indexMinLast) }
+}
+
+/*
+1.29 Дан целочисленный массив и интервал a..b. Необходимо проверить
+наличие максимального элемента массива в этом интервале.
+ */
+fun task1_29List(array : MutableList<Int>) : Boolean {
+    val inter = interList()
+    return array.max()!! > inter[0] && array.max()!! < inter[1]
+}
+
+/*
+1.38 Дан целочисленный массив и отрезок a..b. Необходимо найти
+количество элементов, значение которых принадлежит этому отрезку.
+ */
+tailrec fun task1_38List(list : MutableList<Int>,index : Int, count : Int = 0, interList : MutableList<Int>) : Int {
+    return if (index <= 0) return count
+    else {
+        if (list[index] in interList[0]..interList[1]) task1_38List(list, index - 1, count + 1, interList)
+        else {
+            task1_38List(list, index - 1, count, interList)
+        }
+    }
+}
+
+/*
+1.44 Дан массив чисел. Необходимо проверить, чередуются ли в нем
+целые и вещественные числа.
+ */
+tailrec fun task1_44List(list : MutableList<Any>,index : Int) : Boolean {
+    return if (index <= 0) true
+    else {
+        if (list[index-1] is Int && list[index] is Int) {
+            false
+        }
+        else {
+            if (list[index - 1] is Double && list[index] is Double) false
+            else {
+                task1_44List(list, index - 1)
+            }
+        }
+    }
+}
+
+//1.50. Для двух введенных списков L1 и L2 построить новый список, состоящий
+//из элементов, встречающихся только в одном из этих списков и не
+//повторяющихся в них.
+fun task1_50List(list1 : MutableList<Int>,list2 : MutableList<Int>) : MutableList<Int> {
+
+    val list1WithoutDuplicates: MutableList<Int> = list1.stream().distinct().collect(Collectors.toList())
+
+    val list2WithoutDuplicates: MutableList<Int> = list2.stream().distinct().collect(Collectors.toList())
+
+    val list3 : List<Int> = list1WithoutDuplicates+list2WithoutDuplicates
+
+    return list3.stream().distinct().collect(Collectors.toList())
+}
+
+
+
+
 
 fun main() {
-    val numbers : Array<Any> = arrayOf(4,2.3,1,5,7,9.2)
-    println(task1_44(numbers,numbers.size-1))
+    val list1 : MutableList<Int> = mutableListOf(1,2,3,4,5,6,7,2,3,5)
+    val list2 : MutableList<Int> = mutableListOf(3,3,3,4,8,6,9,2,3,5)
+    println(task1_50List(list1,list2))
 }
